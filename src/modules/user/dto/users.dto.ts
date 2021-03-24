@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsNumber, IsString, Max } from 'class-validator'
+import { IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator'
 
 /**
  * 获取用户列表
@@ -10,7 +10,7 @@ export class GetUsersDto {
    */
   @IsNotEmpty({ message: 'page 不能为空' })
   @IsInt({ message: 'page 必须为数字类型' })
-  page: number
+  page?: number
   /**
    * 数量
    * @example 10
@@ -39,7 +39,6 @@ export class CreateUserDto {
    */
   @IsNotEmpty({ message: 'password 参数不能为空' })
   @IsString({ message: 'password 必须为字符串类型' })
-  @Max(8, { message: '密码长度最长为8位数' })
   password: string
 
   /**
@@ -65,14 +64,12 @@ export class CreateUserDto {
   role?: number
 }
 
-/**
- * 根据id 获取用户信息
- */
-
-export class GetUserInfoDto {
+export class GetUserInfoParamsDto {
   /**
    * id
    * @example 123
    */
+  @IsNotEmpty({ message: 'id 不可以为空' })
+  @IsInt({ message: 'id 必须是数字类型' })
   id: number
 }

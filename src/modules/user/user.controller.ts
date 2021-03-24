@@ -5,13 +5,19 @@ import {
   Param,
   Post,
   Query,
-  ParseIntPipe,
   ValidationPipe,
   UsePipes
 } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { CreateUserDto, GetUsersDto } from './dto/users.dto'
-import { GetUserQueryTransform } from './pipes/user.pipe'
+import {
+  CreateUserDto,
+  GetUsersDto,
+  GetUserInfoParamsDto
+} from './dto/users.dto'
+import {
+  GetUsersListQueryTransform,
+  GetUserInfoQueryTransform
+} from './pipes/user.pipe'
 @ApiTags('用户管理') // 设置swagger 分类 用于区分是哪个类别的接口 或者是界面 功能等
 @Controller('user')
 export class UserController {
@@ -20,11 +26,10 @@ export class UserController {
     summary: '获取用户信息',
     description: '根据用户id获取用户的信息'
   })
-  // @UsePipes()
-  async getUserInfo(@Param('id', ParseIntPipe) id: number) {
-    return await {
-      id
-    }
+  // 先将id 数据转为数字，然后 校验是否正常
+  @UsePipes(GetUserInfoQueryTransform, ValidationPipe)
+  async getUserInfo(@Param() getInfoParams: GetUserInfoParamsDto) {
+    return await getInfoParams
   }
 
   @Post()
@@ -37,12 +42,11 @@ export class UserController {
   @Get()
   @ApiOperation({ summary: '获取用户列表', description: '根据分页获取数据' })
   // 先将page, size 数据转为数字，然后 校验是否正常
-  @UsePipes(GetUserQueryTransform, ValidationPipe)
+  @UsePipes(GetUsersListQueryTransform, ValidationPipe)
   getUsers(
     @Query()
     queryUsers: GetUsersDto
   ) {
-    console.log(queryUsers)
     return queryUsers
   }
 }
