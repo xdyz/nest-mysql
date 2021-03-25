@@ -3,7 +3,7 @@ export class LoginDto {
    * 账号
    * @example admin
    */
-  name: string
+  username: string
 
   /**
    * 密码
