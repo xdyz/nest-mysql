@@ -1,13 +1,22 @@
-import { Body, Controller, Post, UseGuards, Request, UsePipes, ValidationPipe } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  Inject,
+  Get
+} from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { LoginDto } from './dto/auth.dto'
-import { AuthGuard } from '@nestjs/passport';
-import { AuthService } from './auth.service';
+import { AuthGuard } from '@nestjs/passport'
+import { AuthService } from './auth.service'
 
 @ApiTags('登录')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  @Inject()
+  private authService: AuthService
 
   @Post('/login')
   @ApiOperation({
@@ -15,7 +24,8 @@ export class AuthController {
     description: '用户名和密码登录，获取token' //  更具体的描述 陈述说明
   })
   @UseGuards(AuthGuard('local'))
-  login(@Body() loginDto: LoginDto, @Request() req,) {
-    return this.authService.login(req.user);
+  login(@Body() loginDto: LoginDto, @Request() req) {
+    console.log(loginDto)
+    return this.authService.login(req.user)
   }
 }

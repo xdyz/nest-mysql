@@ -7,6 +7,7 @@ import {
   DocumentBuilder,
   SwaggerDocumentOptions
 } from '@nestjs/swagger'
+
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule)
   app.setGlobalPrefix('/api/v1') // 设置全局的接口前缀
@@ -15,8 +16,12 @@ const bootstrap = async () => {
     .setTitle('xxx 后台管理平台') // swagger 界面名称
     .setDescription('用于api管理 统一前缀 /api/v1') // 描述
     .setVersion('1.0') // 设置版本
-    // .setBasePath('/api/v1')
-    .addBearerAuth({ type: 'apiKey', in: 'header', name: 'Authorization' })
+
+    // 请求带上token 设置到header 里 属性为Authorization
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'jwt'
+    )
     // .addTag('') // 标签
     .build() // 构建
 
