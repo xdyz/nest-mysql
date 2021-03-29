@@ -4,8 +4,7 @@ import {
   Post,
   UseGuards,
   Request,
-  Inject,
-  Get
+  Inject
 } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { LoginDto } from './dto/auth.dto'
