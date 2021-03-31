@@ -3,17 +3,25 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './modules/auth/auth.module'
-import { APP_GUARD } from '@nestjs/core'
-import { AuthGuard } from '@nestjs/passport'
+import { TypeOrmModule } from '@nestjs/typeorm'
+
 @Module({
-  imports: [AuthModule, UserModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '123456',
+      database: 'nest',
+      // entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      autoLoadEntities: true,
+      synchronize: true
+    }),
+    AuthModule,
+    UserModule
+  ],
   controllers: [AppController],
-  providers: [
-    AppService
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: AuthGuard('jwt')
-    // }
-  ]
+  providers: [AppService]
 })
 export class AppModule {}
