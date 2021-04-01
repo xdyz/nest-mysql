@@ -15,6 +15,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   // 这里将获得解码后的参数
   async validate(payload: any) {
-    return { userId: payload.sub, username: payload.username }
+    return { id: payload.sub, username: payload.username }
   }
 }

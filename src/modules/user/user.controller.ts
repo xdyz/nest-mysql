@@ -8,7 +8,11 @@ import {
   ValidationPipe,
   UsePipes,
   UseGuards,
-  Inject
+  Inject,
+  Delete,
+  Put,
+  ParseIntPipe,
+  Request
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
@@ -16,11 +20,12 @@ import { UserService } from './user.service'
 import {
   CreateUserDto,
   GetUsersDto,
-  GetUserInfoParamsDto
+  GetUserInfoParamsDto,
+  UpdateUserDto
 } from './dto/users.dto'
 import {
   GetUsersListQueryTransform,
-  GetUserInfoQueryTransform
+  ParamQueryUserIdTransform
 } from './pipes/user.pipe'
 
 @ApiTags('用户管理') // 设置swagger 分类 用于区分是哪个类别的接口 或者是界面 功能等
@@ -34,11 +39,13 @@ export class UserController {
 
   @Get('/info')
   @ApiOperation({
-    summary: '获取用户信息',
+    summary: '获取用户信息 根据tokens',
     description: '根据用户token获取用户的信息'
   })
-  getUserInformation() {
-    return '123'
+  // req.usr 就是token 通过jwt方法 解析出来的数据 里面包含用户的id 和 名称
+  getUserInformation(@Request() req) {
+    const { id } = req.user
+    return this.userService.findOneById(id)
   }
 
   @Get(':id')
@@ -48,16 +55,9 @@ export class UserController {
   })
 
   // 先将id 数据转为数字，然后 校验是否正常
-  @UsePipes(GetUserInfoQueryTransform, ValidationPipe)
+  @UsePipes(ParamQueryUserIdTransform, ValidationPipe)
   async getUserInfo(@Param() getInfoParams: GetUserInfoParamsDto) {
     return await getInfoParams
-  }
-
-  @Post()
-  @ApiOperation({ summary: '创建用户', description: '设置用户的参数' })
-  createUser(@Body(ValidationPipe) createUser: CreateUserDto) {
-    console.log(createUser)
-    return createUser
   }
 
   @Get()
@@ -69,5 +69,32 @@ export class UserController {
     queryUsers: GetUsersDto
   ) {
     return this.userService.getPageData(queryUsers)
+  }
+
+  @Post()
+  @ApiOperation({ summary: '创建用户', description: '设置用户的参数' })
+  createUser(@Body(ValidationPipe) createUser: CreateUserDto) {
+    return this.userService.createUser(createUser)
+  }
+
+  @Put(':id')
+  @ApiOperation({
+    summary: '更新用户',
+    description: '更新用户信息'
+  })
+  updateUser(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(ValidationPipe) updateUser: UpdateUserDto
+  ) {
+    return this.userService.updateUser(id, updateUser)
+  }
+
+  @Delete(':id')
+  @ApiOperation({
+    summary: '删除用户',
+    description: '根据用户id 删除对应的用户'
+  })
+  deleteUser(@Param('id', ParseIntPipe) id: number) {
+    return this.userService.deleteUser(id)
   }
 }

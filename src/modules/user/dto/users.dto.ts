@@ -1,6 +1,20 @@
 import { IsInt, IsNotEmpty, IsNumber, IsString } from 'class-validator'
 
 /**
+ * id 基类
+ */
+
+class UserBasicDto {
+  /**
+   * id
+   * @example 2
+   */
+  @IsNotEmpty({ message: 'id 不可以为空' })
+  @IsInt({ message: 'id 必须是数字类型' })
+  id: number
+}
+
+/**
  * 获取用户列表
  */
 export class GetUsersDto {
@@ -31,7 +45,7 @@ export class CreateUserDto {
    */
   @IsNotEmpty({ message: 'name 参数不能为空' })
   @IsString({ message: 'name 必须为字符串类型' })
-  name: string
+  username: string
 
   /**
    * 密码
@@ -61,15 +75,11 @@ export class CreateUserDto {
    * @example 0
    */
   @IsNumber()
-  role?: number
+  roles?: number
 }
 
-export class GetUserInfoParamsDto {
-  /**
-   * id
-   * @example 123
-   */
-  @IsNotEmpty({ message: 'id 不可以为空' })
-  @IsInt({ message: 'id 必须是数字类型' })
-  id: number
-}
+export class GetUserInfoParamsDto extends UserBasicDto {}
+
+export class DeleteUserInfoParamsDto extends UserBasicDto {}
+
+export class UpdateUserDto extends CreateUserDto {}

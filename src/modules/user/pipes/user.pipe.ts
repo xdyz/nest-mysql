@@ -13,7 +13,7 @@ export class GetUsersListQueryTransform {
 }
 
 @Injectable()
-export class GetUserInfoQueryTransform {
+export class ParamQueryUserIdTransform {
   transform(value: { id: string }): Record<string, number> {
     const { id, ...rest } = value
     return {

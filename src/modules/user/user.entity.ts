@@ -28,7 +28,7 @@ export class UserEntity {
    */
 
   @Column() // 数据库 表列  也是说明数据库的字段  还支持设置当前字段的一些属性  类型， 长度 等等
-  name: string // 名称
+  username: string // 名称
 
   @Column()
   password: string // 密码
