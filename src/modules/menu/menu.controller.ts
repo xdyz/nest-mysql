@@ -1,7 +1,8 @@
-import { Controller, Get, Inject, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { MenuService } from './menu.service'
+import { CreateMenuDto } from '../../dtos/menu/index'
 @Controller('menus')
 @ApiTags('菜单管理')
 @UseGuards(AuthGuard('jwt'))
@@ -16,5 +17,10 @@ export class MenuController {
   })
   getMenus() {
     return this.menuService.getMenus()
+  }
+
+  @Post()
+  createMenu(@Body() createMenuBody: CreateMenuDto) {
+    return this.menuService.createMenu(createMenuBody)
   }
 }
