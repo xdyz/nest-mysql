@@ -1,11 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-<<<<<<< HEAD
 import { UserEntity } from '../../entities/index'
-=======
-import { UserEntity } from './user.entity'
->>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
 
 @Injectable()
 export class UserService {
@@ -28,22 +24,8 @@ export class UserService {
 
   async getPageData(queryUsers) {
     try {
-<<<<<<< HEAD
-      console.log(queryUsers)
-
       const { page, size, ...rest } = queryUsers
-      console.log({
-=======
-      const { page, size, ...rest } = queryUsers
-      const list = await this.userRepository.find({
->>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
-        order: { updated_at: 'DESC' },
-        skip: page - 1 > 0 ? page - 1 : 0,
-        take: size,
-        ...rest
-      })
 
-<<<<<<< HEAD
       const list = await this.userRepository.find({
         ...rest,
         order: { updated_at: 'DESC' },
@@ -51,8 +33,6 @@ export class UserService {
         take: size
       })
 
-=======
->>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
       // 返回数量
       const count = await this.userRepository.count({ ...rest })
       return {
@@ -68,11 +48,7 @@ export class UserService {
   async createUser(createUser) {
     try {
       const res = await this.findOne(createUser.username)
-<<<<<<< HEAD
       if (res?.id) throw new HttpException('用户已存在', HttpStatus.BAD_REQUEST)
-=======
-      if (res.id) throw new HttpException('用户已存在', HttpStatus.BAD_REQUEST)
->>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
       return await this.userRepository.save(createUser)
     } catch (error) {
       throw new HttpException(error, HttpStatus.OK)
@@ -91,7 +67,6 @@ export class UserService {
 
   // 删除用户
   async deleteUser(id: number) {
-<<<<<<< HEAD
     try {
       // 删除用户之前 先查询用户是否存在
       const res = await this.findOneById(id)
@@ -100,10 +75,5 @@ export class UserService {
     } catch (error) {
       throw new HttpException(error, HttpStatus.OK)
     }
-=======
-    // 删除用户之前 先查询用户是否存在
-    const res = await this.findOneById(id)
-    return await this.userRepository.remove(res)
->>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
   }
 }
