@@ -1,26 +1,34 @@
-import { Injectable } from '@nestjs/common';
-import { UserService } from '../user/user.service';
-import { JwtService } from '@nestjs/jwt';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
+import { UserService } from '../user/user.service'
+import { JwtService } from '@nestjs/jwt'
 @Injectable()
 export class AuthService {
-  constructor(
-      private readonly userService: UserService,
-      private readonly jwtService: JwtService
-      ) {}
+  @Inject()
+  private readonly userService: UserService
+  @Inject()
+  private readonly jwtService: JwtService
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.userService.findOne(username);
+    const user = await this.userService.findOne(username)
+
     if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
+      const { password, ...result } = user
+      return result
     }
-    return null;
+    return null
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+    const payload = { username: user.username, sub: user.id }
     return {
-      access_token: this.jwtService.sign(payload),
-    };
+      access_token: this.jwtService.sign(payload)
+    }
+  }
+
+  async getAuthInfo(id: number) {
+    const user = await this.userService.findOneById(id)
+    if (!user) throw new HttpException('用户不存在', HttpStatus.OK)
+    const { password, ...rest } = user
+    return { ...rest }
   }
 }
