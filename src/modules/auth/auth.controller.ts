@@ -2,13 +2,20 @@ import {
   Body,
   Controller,
   Post,
+<<<<<<< HEAD
   Get,
+=======
+>>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
   UseGuards,
   Request,
   Inject
 } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
+<<<<<<< HEAD
 import { LoginDto } from '../../dtos/auth/index'
+=======
+import { LoginDto } from './dto/auth.dto'
+>>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
 import { AuthGuard } from '@nestjs/passport'
 import { AuthService } from './auth.service'
 
@@ -26,6 +33,7 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   login(@Body() loginDto: LoginDto, @Request() req) {
     return this.authService.login(req.user)
+<<<<<<< HEAD
   }
 
   @Get('/info')
@@ -38,5 +46,7 @@ export class AuthController {
   getUserInformation(@Request() req) {
     const { id } = req.user
     return this.authService.getAuthInfo(id)
+=======
+>>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
   }
 }

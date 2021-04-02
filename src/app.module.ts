@@ -4,9 +4,12 @@ import { AppService } from './app.service'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
+<<<<<<< HEAD
 import { MenuModule } from './modules/menu/menu.module'
 import database from './configs/database'
 console.log(database)
+=======
+>>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
 
 @Module({
   imports: [
@@ -22,8 +25,12 @@ console.log(database)
       synchronize: true
     }),
     AuthModule,
+<<<<<<< HEAD
     UserModule,
     MenuModule
+=======
+    UserModule
+>>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
   ],
   controllers: [AppController],
   providers: [AppService]

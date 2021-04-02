@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
+=======
+import { Inject, Injectable } from '@nestjs/common'
+>>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
 import { UserService } from '../user/user.service'
 import { JwtService } from '@nestjs/jwt'
 @Injectable()
@@ -23,6 +27,7 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload)
     }
+<<<<<<< HEAD
   }
 
   async getAuthInfo(id: number) {
@@ -30,5 +35,7 @@ export class AuthService {
     if (!user) throw new HttpException('用户不存在', HttpStatus.OK)
     const { password, ...rest } = user
     return { ...rest }
+=======
+>>>>>>> 3e46dabb326ec84f55a921050d515be890fdc3d7
   }
 }
