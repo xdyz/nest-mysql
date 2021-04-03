@@ -1,3 +1,3 @@
 import CreateMenuDto from './create-menu.dto'
-
-export { CreateMenuDto }
+import UpdateMenuDto from './update-menu.dto'
+export { CreateMenuDto, UpdateMenuDto }
