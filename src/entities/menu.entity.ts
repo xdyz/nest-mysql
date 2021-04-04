@@ -8,8 +8,10 @@ export default class MenuEntity {
   @Column()
   name: string
 
-  @Column()
-  icon: string | null
+  @Column({
+    default: null
+  })
+  icon?: string | null
 
   @Column({
     default: 0

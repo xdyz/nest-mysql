@@ -21,8 +21,9 @@ export default class CreateMenuDto {
   /**
    * @example icon-menu
    */
-  @IsString({ message: '图标必须为字符串类型' })
-  icon: string | null
+  // @IsString({ message: '图标必须为字符串类型' })
+
+  icon?: string | null
 
   /**
    * @example false
