@@ -10,10 +10,10 @@ export class MulterConfigService implements MulterOptionsFactory {
     return {
       storage: aliOssStorage({
         config: {
-          region: 'oss-cn-hangzhou',
-          accessKeyId: 'LTAI5t9qF5JXkmsXQt7fDof1',
-          accessKeySecret: 'f9ck7V8IMSDA6YEfSkz70CFN2AndNg',
-          bucket: 'xdyz'
+          region: '',
+          accessKeyId: '',
+          accessKeySecret: '',
+          bucket: ''
         },
         filename: (req, file, cb) => {
           return cb(null, `${+new Date()}_${file.originalname}`)
