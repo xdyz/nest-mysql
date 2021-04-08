@@ -11,21 +11,32 @@ import {
   Inject,
   Delete,
   Put,
-  ParseIntPipe
+  ParseIntPipe,
+  UseInterceptors,
+  UploadedFile,
+  Request
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
-import { UserService } from './user.service'
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags
+} from '@nestjs/swagger'
+import { UserService } from '../services/user.service'
 import {
   CreateUserDto,
   GetUsersDto,
   GetUserInfoDto,
-  UpdateUserDto
-} from '../../dtos/user/index'
+  UpdateUserDto,
+  UploadUserAvatarDto
+} from '../dtos/index'
 import {
   GetUsersListQueryTransform,
   ParamQueryUserIdTransform
-} from '../../pipes/user/index.pipe'
+} from '../pipes/index.pipe'
+import { FileInterceptor } from '@nestjs/platform-express'
 
 @ApiTags('用户管理') // 设置swagger 分类 用于区分是哪个类别的接口 或者是界面 功能等
 @Controller('users')
@@ -84,5 +95,24 @@ export class UserController {
   })
   deleteUser(@Param('id', ParseIntPipe) id: number) {
     return this.userService.deleteUser(id)
+  }
+
+  // // 上传
+
+  @Post('upload')
+  @ApiOperation({
+    summary: '上传头像',
+    description: '上传有用户头像'
+  })
+  @ApiConsumes('multipart/form-data') // 设置上传数据类型
+  @ApiBody({
+    type: UploadUserAvatarDto,
+    description: '文件上传'
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  upload(@Request() req, @UploadedFile() file) {
+    const { id } = req.user
+    const { url: avatar } = file
+    return this.userService.updateUser(id, { avatar })
   }
 }

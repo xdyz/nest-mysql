@@ -8,9 +8,9 @@ import {
   Inject
 } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { LoginDto } from '../../dtos/auth/index'
+import { LoginDto } from '../dtos/login.dto'
 import { AuthGuard } from '@nestjs/passport'
-import { AuthService } from './auth.service'
+import { AuthService } from '../services/auth.service'
 
 @ApiTags('登录')
 @Controller('auth')

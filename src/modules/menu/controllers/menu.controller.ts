@@ -14,8 +14,8 @@ import {
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
-import { MenuService } from './menu.service'
-import { CreateMenuDto, UpdateMenuDto } from '../../dtos/menu/index'
+import { MenuService } from '../services/menu.service'
+import { CreateMenuDto, UpdateMenuDto } from '../dtos/index'
 @Controller('menus')
 @ApiTags('菜单管理')
 @UseGuards(AuthGuard('jwt'))

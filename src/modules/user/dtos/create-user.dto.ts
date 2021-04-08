@@ -42,4 +42,11 @@ export default class CreateUserDto {
    */
   @IsNumber()
   roles?: number | null
+
+  /**
+   * 头像
+   * @example undefined
+   */
+
+  avatar?: string
 }

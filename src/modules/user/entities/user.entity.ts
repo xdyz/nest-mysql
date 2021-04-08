@@ -7,7 +7,7 @@ import {
 } from 'typeorm'
 
 @Entity() // 实例装饰器 说明这个类是一个 实例类
-export default class UserEntity {
+export class UserEntity {
   // 主键 装饰器 说明这个id 属性 是这个表的主键  这个是必须有的  每一个表必须有有一个主键 @PrimaryColumn()
 
   //  @PrimaryGeneratedColumn() 不仅说明  id 是主键  还是说明 id 是自动生成的
@@ -41,6 +41,11 @@ export default class UserEntity {
 
   @Column()
   roles: number // 角色
+
+  @Column({
+    default: null
+  })
+  avatar?: string | null // 头像地址
 
   // 创建时间 这个会自动生成
   @CreateDateColumn()

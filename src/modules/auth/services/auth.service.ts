@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
-import { UserService } from '../user/user.service'
+import { UserService } from '../../user/services/user.service'
 import { JwtService } from '@nestjs/jwt'
 @Injectable()
 export class AuthService {

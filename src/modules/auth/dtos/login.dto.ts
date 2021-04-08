@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator'
 
-export default class LoginDto {
+export class LoginDto {
   /**
    * 账号
    * @example admin

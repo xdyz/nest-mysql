@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common'
+import { Global, Module } from '@nestjs/common'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './modules/auth/auth.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { MenuModule } from './modules/menu/menu.module'
-import { database } from './configs/database'
-console.log(database)
+import { database } from './modules/global/configs/database'
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forRoot(database),
@@ -16,6 +16,7 @@ console.log(database)
     MenuModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService],
+  exports: [AppModule]
 })
 export class AppModule {}

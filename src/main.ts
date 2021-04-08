@@ -9,9 +9,11 @@ import {
 } from '@nestjs/swagger'
 
 // 引入 到main.ts 中 设置成全局过滤器
-import { HttpExceptionFilter } from './filters/http-exception.filter'
+import { HttpExceptionFilter } from './modules/global/filters/http-exception.filter'
 // 引入拦截器 拦截要发送的请求，返回返回给前端 统一的个格式
-import { TransformInterceptor } from './interceptors/transform.interceptor'
+import { TransformInterceptor } from './modules/global/interceptors/transform.interceptor'
+// import { NestExpressApplication } from '@nestjs/platform-express'
+
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule)
   app.setGlobalPrefix('/api/v1') // 设置全局的接口前缀
@@ -38,6 +40,11 @@ const bootstrap = async () => {
   // 启动这个swagger  'swagger' 为访问地址 localhoset: 3000/swagger 可以自己去设置
 
   SwaggerModule.setup('swagger', app, document)
+
+  // // 开启静态服务，这样前端就可以直接访问地址上的文件
+  // app.useStaticAssets('uploads', {
+  //   prefix: '/uploads'
+  // })
 
   // 设置全局 捕获错误的请求格式 过滤捕获到的所有的错误，然后返回统一的错误格式
   app.useGlobalFilters(new HttpExceptionFilter())

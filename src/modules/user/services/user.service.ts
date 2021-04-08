@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { UserEntity } from '../../entities/index'
+import { UserEntity } from '../entities/user.entity'
 
 @Injectable()
 export class UserService {
@@ -58,8 +58,9 @@ export class UserService {
   // 更新用户信息
   async updateUser(id: number, updateUser) {
     try {
-      await this.findOneById(id)
-      return await this.userRepository.save({ id, ...updateUser })
+      const res = await this.findOneById(id)
+      Object.assign(res, { ...updateUser })
+      return await this.userRepository.save({ id, ...res })
     } catch (error) {
       throw new HttpException(error, HttpStatus.OK)
     }

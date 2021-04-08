@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { MenuEntity } from '../../entities/index'
+import { MenuEntity } from '../entities/menu.entity'
 @Injectable()
 export class MenuService {
   @InjectRepository(MenuEntity)
